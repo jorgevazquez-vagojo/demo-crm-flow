@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redegal Prospección — Flujo CRM: De Enginy a HubSpot</title>
+<style>
+:root {
+  --bg: #0f1729;
+  --bg-card: rgba(30, 45, 80, 0.6);
+  --bg-card-hover: rgba(40, 60, 100, 0.7);
+  --accent: #3b82f6;
+  --accent-glow: rgba(59, 130, 246, 0.3);
+  --green: #22c55e;
+  --orange: #f59e0b;
+  --red: #ef4444;
+  --purple: #a855f7;
+  --cyan: #06b6d4;
+  --pink: #ec4899;
+  --text: #e2e8f0;
+  --text-dim: rgba(226, 232, 240, 0.5);
+  --border: rgba(59, 130, 246, 0.2);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ── Progress Bar ───────────────────────────────────── */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--cyan), var(--purple));
+  z-index: 100;
+  transition: width 0.5s ease;
+}
+
+/* ── Brand ──────────────────────────────────────────── */
+.brand {
+  position: fixed;
+  top: 20px;
+  left: 24px;
+  font-size: 14px;
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.3);
+  z-index: 50;
+  font-weight: 700;
+}
+.brand span { color: var(--accent); }
+
+/* ── Navigation ─────────────────────────────────────── */
+.nav-dots {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 50;
+}
+.nav-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.nav-dot.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+.nav-dot:hover { background: rgba(255,255,255,0.3); }
+
+.slide-counter {
+  position: fixed;
+  bottom: 20px;
+  right: 24px;
+  font-size: 13px;
+  color: var(--text-dim);
+  z-index: 50;
+}
+
+/* ── Arrows ─────────────────────────────────────────── */
+.arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+.arrow:hover { background: var(--accent-glow); border-color: var(--accent); }
+.arrow-left { left: 24px; }
+.arrow-right { right: 60px; }
+
+/* ── Timer ──────────────────────────────────────────── */
+.timer {
+  position: fixed;
+  bottom: 20px;
+  left: 24px;
+  font-size: 12px;
+  color: var(--text-dim);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.timer-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ── Slides ─────────────────────────────────────────── */
+.slides-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 80px;
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+}
+.slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+}
+.slide.exit-left {
+  opacity: 0;
+  transform: translateX(-60px);
+}
+
+.slide-tag {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  background: rgba(59,130,246,0.08);
+  margin-bottom: 20px;
+}
+
+.slide h1 {
+  font-size: 44px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+.slide h1 .gradient {
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.slide h2 {
+  font-size: 32px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.slide p {
+  font-size: 17px;
+  color: var(--text-dim);
+  text-align: center;
+  max-width: 700px;
+  line-height: 1.7;
+}
+
+/* ── Cards Grid ─────────────────────────────────────── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.3s;
+}
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.card-icon {
+  font-size: 32px;
+  margin-bottom: 14px;
+}
+.card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.card p {
+  font-size: 14px;
+  text-align: left;
+  line-height: 1.6;
+}
+
+/* ── Flow Diagram ───────────────────────────────────── */
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 30px;
+}
+.flow-node {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 24px;
+  text-align: center;
+  min-width: 140px;
+  transition: all 0.3s;
+}
+.flow-node:hover {
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+.flow-node .icon { font-size: 28px; margin-bottom: 8px; }
+.flow-node .label { font-size: 13px; font-weight: 600; }
+.flow-node .sub { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+.flow-arrow {
+  font-size: 24px;
+  color: var(--accent);
+  animation: flowPulse 2s infinite;
+}
+@keyframes flowPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ── Table ──────────────────────────────────────────── */
+.table-wrap {
+  max-width: 1000px;
+  width: 100%;
+  margin-top: 24px;
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 14px;
+}
+th {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+tr:hover td { background: rgba(59,130,246,0.05); }
+
+/* ── Badge ──────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge-green { background: rgba(34,197,94,0.15); color: var(--green); }
+.badge-orange { background: rgba(245,158,11,0.15); color: var(--orange); }
+.badge-blue { background: rgba(59,130,246,0.15); color: var(--accent); }
+.badge-purple { background: rgba(168,85,247,0.15); color: var(--purple); }
+.badge-cyan { background: rgba(6,182,212,0.15); color: var(--cyan); }
+
+/* ── Pipeline Visual ────────────────────────────────── */
+.pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 900px;
+  width: 100%;
+  margin-top: 24px;
+}
+.pipeline-step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  transition: all 0.3s;
+}
+.pipeline-step:hover {
+  border-color: var(--accent);
+  background: var(--bg-card-hover);
+}
+.pipeline-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent-glow);
+  border: 1px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.pipeline-content { flex: 1; }
+.pipeline-content h4 { font-size: 15px; margin-bottom: 4px; }
+.pipeline-content p { font-size: 13px; text-align: left; }
+.pipeline-tag {
+  font-size: 11px;
+  color: var(--text-dim);
+  background: rgba(255,255,255,0.05);
+  padding: 3px 10px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+/* ── Metric ─────────────────────────────────────────── */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 800px;
+  width: 100%;
+  margin-top: 30px;
+}
+.metric {
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 16px;
+}
+.metric .value {
+  font-size: 36px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.metric .label {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ── Architecture ───────────────────────────────────── */
+.arch-container {
+  max-width: 1000px;
+  width: 100%;
+  margin-top: 24px;
+}
+.arch-layer {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 24px;
+  margin-bottom: 12px;
+}
+.arch-layer-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.arch-items {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.arch-item {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+.arch-item:hover { border-color: var(--accent); background: var(--accent-glow); }
+
+.arch-arrows {
+  text-align: center;
+  color: var(--accent);
+  font-size: 18px;
+  margin: 4px 0;
+  opacity: 0.5;
+}
+
+/* ── Comparison ─────────────────────────────────────── */
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 900px;
+  width: 100%;
+  margin-top: 24px;
+}
+.comparison-col {
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 28px;
+  border: 1px solid var(--border);
+}
+.comparison-col.highlight {
+  border-color: var(--green);
+  box-shadow: 0 0 30px rgba(34,197,94,0.1);
+}
+.comparison-col h3 {
+  font-size: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.comparison-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.comparison-item:last-child { border-bottom: none; }
+
+/* ── Code Block ─────────────────────────────────────── */
+.code-block {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 20px 24px;
+  max-width: 700px;
+  width: 100%;
+  margin-top: 20px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+.code-block .comment { color: rgba(255,255,255,0.3); }
+.code-block .cmd { color: var(--green); }
+.code-block .url { color: var(--cyan); }
+.code-block .key { color: var(--orange); }
+
+/* ── Animation helpers ──────────────────────────────── */
+.fade-in {
+  animation: fadeIn 0.8s ease both;
+}
+.fade-in-delay-1 { animation-delay: 0.2s; }
+.fade-in-delay-2 { animation-delay: 0.4s; }
+.fade-in-delay-3 { animation-delay: 0.6s; }
+.fade-in-delay-4 { animation-delay: 0.8s; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  .slide { padding: 40px 24px; }
+  .slide h1 { font-size: 28px; }
+  .slide h2 { font-size: 22px; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .comparison { grid-template-columns: 1fr; }
+  .flow { gap: 8px; }
+  .flow-node { min-width: 100px; padding: 12px; }
+  .nav-dots { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Progress -->
+<div class="progress-bar" id="progressBar" style="width: 0%"></div>
+
+<!-- Brand -->
+<div class="brand">REDE<span>GAL</span></div>
+
+<!-- Nav Dots -->
+<div class="nav-dots" id="navDots"></div>
+
+<!-- Arrows -->
+<div class="arrow arrow-left" onclick="prevSlide()">&#8249;</div>
+<div class="arrow arrow-right" onclick="nextSlide()">&#8250;</div>
+
+<!-- Counter -->
+<div class="slide-counter" id="slideCounter">1 / 12</div>
+
+<!-- Timer -->
+<div class="timer">
+  <div class="timer-dot"></div>
+  <span id="timerDisplay">~5 min</span>
+</div>
+
+<!-- ==================== SLIDES ==================== -->
+<div class="slides-container">
+
+  <!-- SLIDE 0: TITLE -->
+  <div class="slide active" id="slide-0">
+    <div class="slide-tag">Demo Interactiva &middot; 5 minutos</div>
+    <h1>Flujo CRM:<br><span class="gradient">De Enginy a HubSpot</span></h1>
+    <p>Como Redegal Prospeccion conecta fuentes de datos, analiza empresas con IA,<br>y sincroniza leads cualificados con tu CRM.</p>
+    <div class="flow" style="margin-top: 40px;">
+      <div class="flow-node">
+        <div class="icon">🔍</div>
+        <div class="label">Datos</div>
+        <div class="sub">BuiltWith, SEO, News</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="border-color: var(--accent);">
+        <div class="icon">🧠</div>
+        <div class="label">Prospeccion IA</div>
+        <div class="sub">Scoring + Outreach</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="icon">📊</div>
+        <div class="label">CRM</div>
+        <div class="sub">Enginy / HubSpot</div>
+      </div>
+    </div>
+    <p style="margin-top: 24px; font-size: 14px;">Pulsa <span style="color:var(--accent)">→</span> para avanzar &nbsp;|&nbsp; Teclas ← → o click en flechas</p>
+  </div>
+
+  <!-- SLIDE 1: THE PROBLEM -->
+  <div class="slide" id="slide-1">
+    <div class="slide-tag">El Problema</div>
+    <h2>Prospeccion manual = Tiempo perdido</h2>
+    <p>El equipo comercial dedica horas a investigar empresas manualmente, sin datos objetivos para priorizar.</p>
+    <div class="comparison" style="margin-top: 30px;">
+      <div class="comparison-col">
+        <h3>❌ Sin sistema</h3>
+        <div class="comparison-item"><span style="color:var(--red)">●</span> Google manual por empresa</div>
+        <div class="comparison-item"><span style="color:var(--red)">●</span> Sin scoring objetivo</div>
+        <div class="comparison-item"><span style="color:var(--red)">●</span> Datos en Excel dispersos</div>
+        <div class="comparison-item"><span style="color:var(--red)">●</span> 30 min por lead</div>
+        <div class="comparison-item"><span style="color:var(--red)">●</span> No hay priorizacion</div>
+        <div class="comparison-item"><span style="color:var(--red)">●</span> Outreach generico</div>
+      </div>
+      <div class="comparison-col highlight">
+        <h3>✅ Con Prospeccion IA</h3>
+        <div class="comparison-item"><span style="color:var(--green)">●</span> Analisis automatizado 5 fuentes</div>
+        <div class="comparison-item"><span style="color:var(--green)">●</span> Scoring 0-100 por linea</div>
+        <div class="comparison-item"><span style="color:var(--green)">●</span> Todo en CRM centralizado</div>
+        <div class="comparison-item"><span style="color:var(--green)">●</span> 2 min por lead</div>
+        <div class="comparison-item"><span style="color:var(--green)">●</span> Hot / Warm / Cold automatico</div>
+        <div class="comparison-item"><span style="color:var(--green)">●</span> Outreach personalizado por IA</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: ARCHITECTURE -->
+  <div class="slide" id="slide-2">
+    <div class="slide-tag">Arquitectura</div>
+    <h2>Stack del Sistema</h2>
+    <p>Capas de la solucion: desde la recoleccion de datos hasta la sincronizacion con CRM.</p>
+    <div class="arch-container">
+      <div class="arch-layer fade-in">
+        <div class="arch-layer-title">🔍 Capa de Recoleccion (Collectors)</div>
+        <div class="arch-items">
+          <div class="arch-item">BuiltWith <span class="badge badge-blue">Tech Stack</span></div>
+          <div class="arch-item">DataForSEO <span class="badge badge-blue">SEO</span></div>
+          <div class="arch-item">PageSpeed <span class="badge badge-blue">Rendimiento</span></div>
+          <div class="arch-item">SerpAPI <span class="badge badge-blue">Noticias</span></div>
+          <div class="arch-item">Playwright <span class="badge badge-blue">Crawler</span></div>
+          <div class="arch-item">SABI / AIDA <span class="badge badge-blue">Financiero</span></div>
+        </div>
+      </div>
+      <div class="arch-arrows">▼ ▼ ▼</div>
+      <div class="arch-layer fade-in fade-in-delay-1">
+        <div class="arch-layer-title">🧠 Capa de Analisis (Analyzers + IA)</div>
+        <div class="arch-items">
+          <div class="arch-item">ICP Fit <span class="badge badge-purple">Scoring</span></div>
+          <div class="arch-item">Need Detection <span class="badge badge-purple">Scoring</span></div>
+          <div class="arch-item">Timing/News <span class="badge badge-purple">Scoring</span></div>
+          <div class="arch-item">Investment Cap. <span class="badge badge-purple">Scoring</span></div>
+          <div class="arch-item">Accessibility <span class="badge badge-purple">Scoring</span></div>
+          <div class="arch-item">Claude IA <span class="badge badge-purple">Outreach</span></div>
+        </div>
+      </div>
+      <div class="arch-arrows">▼ ▼ ▼</div>
+      <div class="arch-layer fade-in fade-in-delay-2">
+        <div class="arch-layer-title">📤 Capa de Salida (Outputs)</div>
+        <div class="arch-items">
+          <div class="arch-item">Enginy CRM <span class="badge badge-green">Principal</span></div>
+          <div class="arch-item">HubSpot <span class="badge badge-green">Enterprise</span></div>
+          <div class="arch-item">Google Sheets <span class="badge badge-cyan">Temporal</span></div>
+          <div class="arch-item">CSV / JSON <span class="badge badge-cyan">Export</span></div>
+          <div class="arch-item">Email SMTP <span class="badge badge-orange">Diario</span></div>
+          <div class="arch-item">Telegram Bot <span class="badge badge-orange">Alertas</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: DATA COLLECTION -->
+  <div class="slide" id="slide-3">
+    <div class="slide-tag">Paso 1</div>
+    <h2>Recoleccion de Datos</h2>
+    <p>6 fuentes de datos alimentan el analisis de cada empresa automaticamente.</p>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🛠️</div>
+        <h3>BuiltWith</h3>
+        <p>Tech stack completo: plataforma e-commerce (Shopify, Magento, VTEX), analytics, CMS, pagos.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <h3>DataForSEO</h3>
+        <p>Metricas SEO: trafico organico, keywords posicionadas, backlinks, authority score.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>PageSpeed Insights</h3>
+        <p>Core Web Vitals: LCP, FID, CLS. Performance score mobile y desktop.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📰</div>
+        <h3>SerpAPI + Noticias</h3>
+        <p>Senales de timing: expansion, inversiones, nuevos mercados, cambios de direccion.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💰</div>
+        <h3>Datos Financieros</h3>
+        <p>SABI, AIDA, Orbis, SIEM, RUES — ingresos, empleados, sector, pais.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <h3>Playwright Crawler</h3>
+        <p>Fallback inteligente: si las APIs no devuelven datos, crawlea la web directamente.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: SCORING -->
+  <div class="slide" id="slide-4">
+    <div class="slide-tag">Paso 2</div>
+    <h2>Scoring por Linea de Negocio</h2>
+    <p>Cada empresa recibe un score 0-100 para cada linea, basado en 5 dimensiones con pesos configurables.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>Boostic</th>
+            <th>Digital Tech</th>
+            <th>Binnacle</th>
+            <th>Digital Biz</th>
+            <th>Que mide</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ICP Fit</td>
+            <td>25%</td>
+            <td>20%</td>
+            <td>25%</td>
+            <td>20%</td>
+            <td>Sector, tamano, pais</td>
+          </tr>
+          <tr>
+            <td>Need Detected</td>
+            <td>30%</td>
+            <td>35%</td>
+            <td>25%</td>
+            <td>30%</td>
+            <td>Tech gaps, SEO debil, performance</td>
+          </tr>
+          <tr>
+            <td>Timing / News</td>
+            <td>15%</td>
+            <td>15%</td>
+            <td>15%</td>
+            <td>10%</td>
+            <td>Expansion, inversiones, cambios</td>
+          </tr>
+          <tr>
+            <td>Investment Capacity</td>
+            <td>15%</td>
+            <td>15%</td>
+            <td>20%</td>
+            <td>15%</td>
+            <td>Revenue, crecimiento, solvencia</td>
+          </tr>
+          <tr>
+            <td>Accessibility</td>
+            <td>15%</td>
+            <td>15%</td>
+            <td>15%</td>
+            <td>25%</td>
+            <td>Contacto disponible, LinkedIn</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex; gap:12px; margin-top:20px;">
+      <span class="badge badge-green" style="font-size:13px; padding:6px 14px;">🔥 Hot ≥ 70</span>
+      <span class="badge badge-orange" style="font-size:13px; padding:6px 14px;">🌡️ Warm ≥ 45</span>
+      <span class="badge badge-blue" style="font-size:13px; padding:6px 14px;">❄️ Cold &lt; 45</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: EJEMPLO REAL -->
+  <div class="slide" id="slide-5">
+    <div class="slide-tag">Ejemplo Real</div>
+    <h2>Casa del Libro — Lead Analizado</h2>
+    <p>Asi se ve un lead completo despues de pasar por el pipeline.</p>
+    <div class="cards-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 800px;">
+      <div class="card">
+        <h3>📋 Datos empresa</h3>
+        <p>
+          <strong>Dominio:</strong> casadellibro.com<br>
+          <strong>Sector:</strong> Retail / e-commerce<br>
+          <strong>Pais:</strong> Espana 🇪🇸<br>
+          <strong>Empleados:</strong> ~400<br>
+          <strong>Revenue:</strong> €85M
+        </p>
+      </div>
+      <div class="card">
+        <h3>🛠️ Tech Stack</h3>
+        <p>
+          <strong>Plataforma:</strong> Custom Java<br>
+          <strong>Analytics:</strong> GA4, Hotjar<br>
+          <strong>CMS:</strong> Custom<br>
+          <strong>Pagos:</strong> Redsys, PayPal<br>
+          <strong>CDN:</strong> Akamai
+        </p>
+      </div>
+      <div class="card">
+        <h3>📊 Scores</h3>
+        <p>
+          <span class="badge badge-green">Boostic: 82 🔥</span><br><br>
+          <span class="badge badge-orange">Digital Tech: 65 🌡️</span><br><br>
+          <span class="badge badge-blue">Binnacle: 42 ❄️</span><br><br>
+          <span class="badge badge-green">Digital Biz: 78 🔥</span>
+        </p>
+      </div>
+      <div class="card">
+        <h3>💬 Outreach generado</h3>
+        <p style="font-style: italic; font-size: 13px;">
+          "Hemos analizado casadellibro.com y detectamos una oportunidad de optimizacion SEO significativa.
+          Con un Core Web Vitals de 45/100 y plataforma legacy Java, una migracion a headless commerce
+          podria mejorar conversion un 15-20%..."
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: CRM ARCHITECTURE -->
+  <div class="slide" id="slide-6">
+    <div class="slide-tag">Integracion CRM</div>
+    <h2>Arquitectura de Outputs</h2>
+    <p>Sistema de adaptadores pluggables: anadir un CRM nuevo = 1 fichero YAML.</p>
+    <div class="arch-container" style="max-width: 800px;">
+      <div class="arch-layer">
+        <div class="arch-layer-title">🔌 BaseOutput (ABC — Clase Abstracta)</div>
+        <div class="arch-items">
+          <div class="arch-item">export_lead()</div>
+          <div class="arch-item">export_scores()</div>
+          <div class="arch-item">export_pipeline_run()</div>
+          <div class="arch-item">health_check()</div>
+        </div>
+      </div>
+      <div class="arch-arrows">▼ implementa ▼</div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+        <div class="arch-layer" style="border-color: var(--green);">
+          <div class="arch-layer-title">Enginy CRM</div>
+          <div class="arch-items">
+            <div class="arch-item">config/crm/enginy.yaml</div>
+            <div class="arch-item">GenericCRMOutput</div>
+          </div>
+        </div>
+        <div class="arch-layer" style="border-color: var(--orange);">
+          <div class="arch-layer-title">HubSpot</div>
+          <div class="arch-items">
+            <div class="arch-item">hubspot-api-client</div>
+            <div class="arch-item">HubSpotOutput</div>
+          </div>
+        </div>
+        <div class="arch-layer" style="border-color: var(--cyan);">
+          <div class="arch-layer-title">Google Sheets</div>
+          <div class="arch-items">
+            <div class="arch-item">gspread</div>
+            <div class="arch-item">SheetsOutput</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top: 20px; font-size: 14px;">
+      El <span class="badge badge-purple">GenericCRMOutput</span> lee field mappings de YAML — no necesitas codigo para anadir Salesforce, Pipedrive, etc.
+    </p>
+  </div>
+
+  <!-- SLIDE 7: ENGINY -->
+  <div class="slide" id="slide-7">
+    <div class="slide-tag">CRM: Enginy</div>
+    <h2>Integracion con Enginy</h2>
+    <p>CRM actual de Redegal. Configuracion 100% declarativa via YAML.</p>
+    <div class="cards-grid" style="grid-template-columns: 1fr 1fr; max-width: 900px;">
+      <div class="card">
+        <h3>📄 enginy.yaml</h3>
+        <div class="code-block" style="margin-top: 10px; font-size: 12px;">
+          <span class="comment"># config/crm/enginy.yaml</span><br>
+          <span class="key">base_url</span>: https://api.enginy.com/v1<br>
+          <span class="key">auth</span>: bearer (ENGINY_API_TOKEN)<br><br>
+          <span class="comment"># Endpoints</span><br>
+          contacts: POST/PUT/GET/DELETE<br>
+          deals: POST/PUT<br>
+          health: GET<br><br>
+          <span class="comment"># Field mapping</span><br>
+          domain → company_domain<br>
+          total_score → score<br>
+          classification → stage<br>
+        </div>
+      </div>
+      <div class="card">
+        <h3>🔄 Flujo de datos</h3>
+        <div class="pipeline" style="margin-top: 10px;">
+          <div class="pipeline-step">
+            <div class="pipeline-num" style="width:28px;height:28px;font-size:12px;">1</div>
+            <div class="pipeline-content">
+              <h4 style="font-size:14px;">Lead analizado</h4>
+              <p>Pipeline completa el analisis</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <div class="pipeline-num" style="width:28px;height:28px;font-size:12px;background:rgba(34,197,94,0.3);border-color:var(--green);">2</div>
+            <div class="pipeline-content">
+              <h4 style="font-size:14px;">Crear contacto</h4>
+              <p>POST /contacts con field mapping</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <div class="pipeline-num" style="width:28px;height:28px;font-size:12px;background:rgba(168,85,247,0.3);border-color:var(--purple);">3</div>
+            <div class="pipeline-content">
+              <h4 style="font-size:14px;">Crear deal</h4>
+              <p>Con scores, BU y clasificacion</p>
+            </div>
+          </div>
+          <div class="pipeline-step">
+            <div class="pipeline-num" style="width:28px;height:28px;font-size:12px;background:rgba(245,158,11,0.3);border-color:var(--orange);">4</div>
+            <div class="pipeline-content">
+              <h4 style="font-size:14px;">Cross-sell tags</h4>
+              <p>Si score > threshold en otra BU</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: HUBSPOT -->
+  <div class="slide" id="slide-8">
+    <div class="slide-tag">CRM: HubSpot</div>
+    <h2>Integracion con HubSpot</h2>
+    <p>Para equipos enterprise con HubSpot ya desplegado. Usa la API oficial.</p>
+    <div class="cards-grid" style="grid-template-columns: 1fr 1fr; max-width: 900px;">
+      <div class="card">
+        <h3>⚙️ Configuracion</h3>
+        <div class="code-block" style="margin-top: 10px; font-size: 12px;">
+          <span class="comment"># .env</span><br>
+          <span class="key">HUBSPOT_ENABLED</span>=true<br>
+          <span class="key">HUBSPOT_ACCESS_TOKEN</span>=pat-...<br><br>
+          <span class="comment"># Instalacion</span><br>
+          <span class="cmd">pip install -e ".[hubspot]"</span><br><br>
+          <span class="comment"># Custom properties creadas:</span><br>
+          prospeccion_score (number)<br>
+          prospeccion_classification (enum)<br>
+          prospeccion_business_line (enum)<br>
+          prospeccion_tech_stack (text)<br>
+        </div>
+      </div>
+      <div class="card">
+        <h3>🔄 Sync bidireccional</h3>
+        <div style="margin-top: 10px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+            <span style="font-size:28px;">🧠</span>
+            <span class="flow-arrow">→</span>
+            <span style="font-size:28px;">🟠</span>
+            <span style="font-size:14px;color:var(--text-dim);">Leads + scores → HubSpot contacts</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+            <span style="font-size:28px;">🧠</span>
+            <span class="flow-arrow">→</span>
+            <span style="font-size:28px;">🟠</span>
+            <span style="font-size:14px;color:var(--text-dim);">Deals por linea → HubSpot deals</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+            <span style="font-size:28px;">🧠</span>
+            <span class="flow-arrow">→</span>
+            <span style="font-size:28px;">🟠</span>
+            <span style="font-size:14px;color:var(--text-dim);">Outreach → HubSpot notes</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="font-size:28px;">🟠</span>
+            <span class="flow-arrow">→</span>
+            <span style="font-size:28px;">🧠</span>
+            <span style="font-size:14px;color:var(--text-dim);">Deal stage changes → Webhooks</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: ENGINY vs HUBSPOT -->
+  <div class="slide" id="slide-9">
+    <div class="slide-tag">Comparativa</div>
+    <h2>Enginy vs HubSpot</h2>
+    <p>Ambos CRMs estan soportados. La diferencia es en el metodo de integracion.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Caracteristica</th>
+            <th>Enginy</th>
+            <th>HubSpot</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Metodo de integracion</td>
+            <td><span class="badge badge-green">GenericCRMOutput + YAML</span></td>
+            <td><span class="badge badge-orange">HubSpotOutput dedicado</span></td>
+          </tr>
+          <tr>
+            <td>Configuracion</td>
+            <td>config/crm/enginy.yaml</td>
+            <td>.env (HUBSPOT_ENABLED + TOKEN)</td>
+          </tr>
+          <tr>
+            <td>Field mapping</td>
+            <td>Declarativo en YAML</td>
+            <td>Custom properties via API</td>
+          </tr>
+          <tr>
+            <td>Auth</td>
+            <td>Bearer token</td>
+            <td>Private app token</td>
+          </tr>
+          <tr>
+            <td>Dependencia extra</td>
+            <td>Ninguna</td>
+            <td>hubspot-api-client (pip)</td>
+          </tr>
+          <tr>
+            <td>Anadir nuevo CRM</td>
+            <td><span class="badge badge-green">Solo YAML</span></td>
+            <td>Requiere nuevo adapter Python</td>
+          </tr>
+          <tr>
+            <td>Cross-sell</td>
+            <td>Via custom fields en YAML</td>
+            <td>Via custom properties</td>
+          </tr>
+          <tr>
+            <td>Ideal para</td>
+            <td><span class="badge badge-blue">Pymes, CRMs custom</span></td>
+            <td><span class="badge badge-purple">Enterprise, equipos grandes</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top: 20px; font-size: 14px;">
+      Tip: Puedes usar ambos simultaneamente. El pipeline exporta a todos los outputs activos.
+    </p>
+  </div>
+
+  <!-- SLIDE 10: DAILY FLOW -->
+  <div class="slide" id="slide-10">
+    <div class="slide-tag">Operacion Diaria</div>
+    <h2>Flujo completo: dia a dia</h2>
+    <p>Asi funciona el sistema en produccion, sin intervencion manual.</p>
+    <div class="pipeline" style="max-width: 800px;">
+      <div class="pipeline-step">
+        <div class="pipeline-num">1</div>
+        <div class="pipeline-content">
+          <h4>06:00 — Pipeline automatico (n8n / cron)</h4>
+          <p>Analiza nuevos dominios pendientes. Collectors recopilan datos.</p>
+        </div>
+        <div class="pipeline-tag">Automatico</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="pipeline-num">2</div>
+        <div class="pipeline-content">
+          <h4>06:30 — Scoring + Clasificacion</h4>
+          <p>5 analyzers calculan score por linea. Hot/Warm/Cold asignado.</p>
+        </div>
+        <div class="pipeline-tag">Automatico</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="pipeline-num">3</div>
+        <div class="pipeline-content">
+          <h4>07:00 — Outreach generado por IA</h4>
+          <p>Claude genera mensaje personalizado para leads Hot en idioma del mercado.</p>
+        </div>
+        <div class="pipeline-tag">Automatico</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="pipeline-num">4</div>
+        <div class="pipeline-content">
+          <h4>07:15 — Sync a CRM (Enginy / HubSpot)</h4>
+          <p>Leads, scores, deals y outreach sincronizados automaticamente.</p>
+        </div>
+        <div class="pipeline-tag">Automatico</div>
+      </div>
+      <div class="pipeline-step" style="border-color: var(--orange);">
+        <div class="pipeline-num" style="background:rgba(245,158,11,0.3);border-color:var(--orange);">5</div>
+        <div class="pipeline-content">
+          <h4>08:00 — Email diario a directivos</h4>
+          <p>CEO, COO, directores de BU reciben informe filtrado por su linea.</p>
+        </div>
+        <div class="pipeline-tag" style="color:var(--orange);">SMTP</div>
+      </div>
+      <div class="pipeline-step" style="border-color: var(--cyan);">
+        <div class="pipeline-num" style="background:rgba(6,182,212,0.3);border-color:var(--cyan);">6</div>
+        <div class="pipeline-content">
+          <h4>Continuo — Alerta hot leads (Telegram)</h4>
+          <p>Si score > 70, notificacion instantanea al canal del equipo.</p>
+        </div>
+        <div class="pipeline-tag" style="color:var(--cyan);">Real-time</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: METRICS -->
+  <div class="slide" id="slide-11">
+    <div class="slide-tag">Numeros</div>
+    <h2>Metricas del Sistema</h2>
+    <p>Capacidad actual del sistema con 7 mercados configurados.</p>
+    <div class="metrics">
+      <div class="metric">
+        <div class="value">7</div>
+        <div class="label">Paises</div>
+      </div>
+      <div class="metric">
+        <div class="value">4</div>
+        <div class="label">Lineas BU</div>
+      </div>
+      <div class="metric">
+        <div class="value">6</div>
+        <div class="label">Data Sources</div>
+      </div>
+      <div class="metric">
+        <div class="value">5</div>
+        <div class="label">Dimensiones Score</div>
+      </div>
+    </div>
+    <div class="metrics" style="margin-top: 12px;">
+      <div class="metric">
+        <div class="value">2m</div>
+        <div class="label">Por Lead</div>
+      </div>
+      <div class="metric">
+        <div class="value">3</div>
+        <div class="label">CRM Outputs</div>
+      </div>
+      <div class="metric">
+        <div class="value">433</div>
+        <div class="label">Tests</div>
+      </div>
+      <div class="metric">
+        <div class="value">24/7</div>
+        <div class="label">Automatizado</div>
+      </div>
+    </div>
+    <p style="margin-top: 24px; font-size: 14px;">
+      <span class="badge badge-green" style="font-size:13px;padding:6px 14px;">Anadir pais = 1 YAML</span>
+      <span style="margin: 0 8px;">|</span>
+      <span class="badge badge-purple" style="font-size:13px;padding:6px 14px;">Anadir CRM = 1 YAML</span>
+      <span style="margin: 0 8px;">|</span>
+      <span class="badge badge-cyan" style="font-size:13px;padding:6px 14px;">Anadir BU = 1 YAML</span>
+    </p>
+  </div>
+
+  <!-- SLIDE 12: NEXT STEPS -->
+  <div class="slide" id="slide-12">
+    <div class="slide-tag">Proximos Pasos</div>
+    <h1>Empieza en <span class="gradient">5 minutos</span></h1>
+    <div class="code-block" style="margin-top: 30px;">
+      <span class="comment"># 1. Clona e instala</span><br>
+      <span class="cmd">git clone</span> &lt;repo-url&gt;<br>
+      <span class="cmd">cd</span> redegal-prospeccion<br>
+      <span class="cmd">bash</span> install.sh<br><br>
+      <span class="comment"># 2. Arranca</span><br>
+      <span class="cmd">source</span> .venv/bin/activate<br>
+      <span class="cmd">uvicorn</span> app.main:app --reload --port 8000<br><br>
+      <span class="comment"># 3. Abre el dashboard</span><br>
+      <span class="url">http://localhost:8000</span><br>
+      <span class="url">http://localhost:8000/docs</span> <span class="comment"># API docs</span><br><br>
+      <span class="comment"># 4. Valida config</span><br>
+      <span class="cmd">python</span> scripts/validate_config.py
+    </div>
+    <div class="flow" style="margin-top: 30px;">
+      <div class="flow-node" style="border-color:var(--green);">
+        <div class="icon">🚀</div>
+        <div class="label">Dashboard</div>
+        <div class="sub">localhost:8000</div>
+      </div>
+      <div class="flow-node" style="border-color:var(--purple);">
+        <div class="icon">📖</div>
+        <div class="label">API Docs</div>
+        <div class="sub">/docs</div>
+      </div>
+      <div class="flow-node" style="border-color:var(--cyan);">
+        <div class="icon">💬</div>
+        <div class="label">Chat IA</div>
+        <div class="sub">CLI o Web</div>
+      </div>
+      <div class="flow-node" style="border-color:var(--orange);">
+        <div class="icon">📊</div>
+        <div class="label">CRM Sync</div>
+        <div class="sub">Enginy / HubSpot</div>
+      </div>
+    </div>
+    <p style="margin-top: 20px; color: var(--text-dim); font-size: 14px;">
+      Redegal Prospeccion v2.0 &middot; Febrero 2026 &middot; Confidencial
+    </p>
+  </div>
+
+</div>
+
+<script>
+// ── Slides Engine ────────────────────────────────────────────────────────
+const totalSlides = 13;
+let current = 0;
+
+function initDots() {
+  const container = document.getElementById('navDots');
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goToSlide(i);
+    container.appendChild(dot);
+  }
+}
+
+function updateUI() {
+  // Progress
+  document.getElementById('progressBar').style.width = ((current / (totalSlides - 1)) * 100) + '%';
+
+  // Counter
+  document.getElementById('slideCounter').textContent = (current + 1) + ' / ' + totalSlides;
+
+  // Dots
+  document.querySelectorAll('.nav-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === current);
+  });
+
+  // Timer estimate
+  const remaining = Math.ceil((totalSlides - current - 1) * 0.4);
+  document.getElementById('timerDisplay').textContent = remaining > 0 ? '~' + remaining + ' min' : 'Fin';
+}
+
+function goToSlide(n) {
+  if (n === current || n < 0 || n >= totalSlides) return;
+
+  const oldSlide = document.getElementById('slide-' + current);
+  const newSlide = document.getElementById('slide-' + n);
+
+  oldSlide.classList.remove('active');
+  oldSlide.classList.add('exit-left');
+
+  setTimeout(() => {
+    oldSlide.classList.remove('exit-left');
+  }, 500);
+
+  newSlide.classList.add('active');
+  current = n;
+  updateUI();
+}
+
+function nextSlide() { goToSlide(current + 1); }
+function prevSlide() { goToSlide(current - 1); }
+
+// Keyboard
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+  if (e.key === 'Home') { e.preventDefault(); goToSlide(0); }
+  if (e.key === 'End') { e.preventDefault(); goToSlide(totalSlides - 1); }
+});
+
+// Touch
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', (e) => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) {
+    diff > 0 ? nextSlide() : prevSlide();
+  }
+});
+
+// Init
+initDots();
+updateUI();
+</script>
+
+</body>
+</html>
