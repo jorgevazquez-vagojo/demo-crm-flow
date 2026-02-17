@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Redegal Prospección — Flujo CRM: De Enginy a HubSpot</title>
+<title>Redegal Prospección — Pipeline: Enginy → Redegal Brain → HubSpot</title>
 <style>
 :root {
   --bg: #0f1729;
@@ -662,7 +662,7 @@ tr:hover td { background: rgba(59,130,246,0.05); }
 
 <!-- START OVERLAY -->
 <div id="startOverlay" onclick="startPresentation()">
-  <div style="font-size:14px; letter-spacing:6px; color:rgba(255,255,255,0.4); text-transform:uppercase; margin-bottom:24px;">Redegal &middot; Flujo CRM</div>
+  <div style="font-size:14px; letter-spacing:6px; color:rgba(255,255,255,0.4); text-transform:uppercase; margin-bottom:24px;">Redegal &middot; Pipeline Inteligente</div>
   <div class="play-circle">
     <span style="font-size:42px; margin-left:6px;">&#9654;</span>
   </div>
@@ -713,25 +713,25 @@ tr:hover td { background: rgba(59,130,246,0.05); }
   <!-- SLIDE 0: TITLE -->
   <div class="slide active" id="slide-0">
     <div class="slide-tag">Demo Interactiva &middot; 5 minutos</div>
-    <h1>Flujo CRM:<br><span class="gradient">De Enginy a HubSpot</span></h1>
-    <p>Como Redegal Prospeccion conecta fuentes de datos, analiza empresas con IA,<br>y sincroniza leads cualificados con tu CRM.</p>
+    <h1>Pipeline Inteligente:<br><span class="gradient">Enginy → Brain → HubSpot</span></h1>
+    <p>Como Redegal Prospeccion conecta la fuente de leads con la inteligencia artificial<br>para entregar leads cualificados al CRM.</p>
     <div class="flow" style="margin-top: 40px;">
-      <div class="flow-node">
+      <div class="flow-node" style="border-color: var(--green);">
         <div class="icon">🔍</div>
-        <div class="label">Datos</div>
-        <div class="sub">BuiltWith, SEO, News</div>
+        <div class="label">Enginy</div>
+        <div class="sub">Lead Source (B2B)</div>
       </div>
       <div class="flow-arrow">→</div>
       <div class="flow-node" style="border-color: var(--accent);">
         <div class="icon">🧠</div>
-        <div class="label">Prospeccion IA</div>
-        <div class="sub">Scoring + Outreach</div>
+        <div class="label">Redegal Brain</div>
+        <div class="sub">Inteligencia + Scoring</div>
       </div>
       <div class="flow-arrow">→</div>
-      <div class="flow-node">
+      <div class="flow-node" style="border-color: var(--orange);">
         <div class="icon">📊</div>
-        <div class="label">CRM</div>
-        <div class="sub">Enginy / HubSpot</div>
+        <div class="label">HubSpot</div>
+        <div class="sub">CRM Destino</div>
       </div>
     </div>
     <p style="margin-top: 24px; font-size: 14px;">Pulsa <span style="color:var(--accent)">→</span> para avanzar &nbsp;|&nbsp; Teclas ← → o click en flechas</p>
@@ -744,7 +744,7 @@ tr:hover td { background: rgba(59,130,246,0.05); }
     <p>El equipo comercial dedica horas a investigar empresas manualmente, sin datos objetivos para priorizar.</p>
     <div class="comparison" style="margin-top: 30px;">
       <div class="comparison-col">
-        <h3>❌ Sin sistema</h3>
+        <h3>Sin sistema</h3>
         <div class="comparison-item"><span style="color:var(--red)">●</span> Google manual por empresa</div>
         <div class="comparison-item"><span style="color:var(--red)">●</span> Sin scoring objetivo</div>
         <div class="comparison-item"><span style="color:var(--red)">●</span> Datos en Excel dispersos</div>
@@ -753,13 +753,13 @@ tr:hover td { background: rgba(59,130,246,0.05); }
         <div class="comparison-item"><span style="color:var(--red)">●</span> Outreach generico</div>
       </div>
       <div class="comparison-col highlight">
-        <h3>✅ Con Prospeccion IA</h3>
-        <div class="comparison-item"><span style="color:var(--green)">●</span> Analisis automatizado 5 fuentes</div>
+        <h3>Con Pipeline Inteligente</h3>
+        <div class="comparison-item"><span style="color:var(--green)">●</span> Enginy identifica empresas ICP</div>
+        <div class="comparison-item"><span style="color:var(--green)">●</span> Brain analiza con 6 fuentes</div>
         <div class="comparison-item"><span style="color:var(--green)">●</span> Scoring 0-100 por linea</div>
-        <div class="comparison-item"><span style="color:var(--green)">●</span> Todo en CRM centralizado</div>
         <div class="comparison-item"><span style="color:var(--green)">●</span> 2 min por lead</div>
         <div class="comparison-item"><span style="color:var(--green)">●</span> Hot / Warm / Cold automatico</div>
-        <div class="comparison-item"><span style="color:var(--green)">●</span> Outreach personalizado por IA</div>
+        <div class="comparison-item"><span style="color:var(--green)">●</span> Leads cualificados en HubSpot</div>
       </div>
     </div>
   </div>
@@ -767,52 +767,90 @@ tr:hover td { background: rgba(59,130,246,0.05); }
   <!-- SLIDE 2: ARCHITECTURE -->
   <div class="slide" id="slide-2">
     <div class="slide-tag">Arquitectura</div>
-    <h2>Stack del Sistema</h2>
-    <p>Capas de la solucion: desde la recoleccion de datos hasta la sincronizacion con CRM.</p>
+    <h2>Enginy → Redegal Brain → HubSpot</h2>
+    <p>Tres bloques: fuente de leads, inteligencia, y CRM de destino.</p>
     <div class="arch-container">
-      <div class="arch-layer fade-in">
-        <div class="arch-layer-title">🔍 Capa de Recoleccion (Collectors)</div>
+      <div class="arch-layer fade-in" style="border-color: var(--green);">
+        <div class="arch-layer-title">🔍 Entrada — Enginy (Lead Source B2B)</div>
         <div class="arch-items">
-          <div class="arch-item">BuiltWith <span class="badge badge-blue">Tech Stack</span></div>
-          <div class="arch-item">DataForSEO <span class="badge badge-blue">SEO</span></div>
-          <div class="arch-item">PageSpeed <span class="badge badge-blue">Rendimiento</span></div>
-          <div class="arch-item">SerpAPI <span class="badge badge-blue">Noticias</span></div>
-          <div class="arch-item">Playwright <span class="badge badge-blue">Crawler</span></div>
-          <div class="arch-item">SABI / AIDA <span class="badge badge-blue">Financiero</span></div>
+          <div class="arch-item">Identificacion ICP <span class="badge badge-green">Auto</span></div>
+          <div class="arch-item">7 mercados <span class="badge badge-green">Multi-pais</span></div>
+          <div class="arch-item">4 lineas de negocio <span class="badge badge-green">Filtro</span></div>
+          <div class="arch-item">Dominios candidatos <span class="badge badge-green">Output</span></div>
         </div>
       </div>
       <div class="arch-arrows">▼ ▼ ▼</div>
-      <div class="arch-layer fade-in fade-in-delay-1">
-        <div class="arch-layer-title">🧠 Capa de Analisis (Analyzers + IA)</div>
+      <div class="arch-layer fade-in fade-in-delay-1" style="border-color: var(--accent);">
+        <div class="arch-layer-title">🧠 Inteligencia — Redegal Brain</div>
         <div class="arch-items">
-          <div class="arch-item">ICP Fit <span class="badge badge-purple">Scoring</span></div>
-          <div class="arch-item">Need Detection <span class="badge badge-purple">Scoring</span></div>
-          <div class="arch-item">Timing/News <span class="badge badge-purple">Scoring</span></div>
-          <div class="arch-item">Investment Cap. <span class="badge badge-purple">Scoring</span></div>
-          <div class="arch-item">Accessibility <span class="badge badge-purple">Scoring</span></div>
+          <div class="arch-item">BuiltWith <span class="badge badge-blue">Tech</span></div>
+          <div class="arch-item">DataForSEO <span class="badge badge-blue">SEO</span></div>
+          <div class="arch-item">PageSpeed <span class="badge badge-blue">Perf</span></div>
+          <div class="arch-item">SerpAPI <span class="badge badge-blue">News</span></div>
+          <div class="arch-item">Financiero <span class="badge badge-blue">SABI/AIDA</span></div>
+          <div class="arch-item">Playwright <span class="badge badge-blue">Crawler</span></div>
+          <div class="arch-item">5D Scoring <span class="badge badge-purple">Scoring</span></div>
           <div class="arch-item">Claude IA <span class="badge badge-purple">Outreach</span></div>
         </div>
       </div>
       <div class="arch-arrows">▼ ▼ ▼</div>
-      <div class="arch-layer fade-in fade-in-delay-2">
-        <div class="arch-layer-title">📤 Capa de Salida (Outputs)</div>
+      <div class="arch-layer fade-in fade-in-delay-2" style="border-color: var(--orange);">
+        <div class="arch-layer-title">📤 Salida — HubSpot CRM + Canales</div>
         <div class="arch-items">
-          <div class="arch-item">Enginy CRM <span class="badge badge-green">Principal</span></div>
-          <div class="arch-item">HubSpot <span class="badge badge-green">Enterprise</span></div>
-          <div class="arch-item">Google Sheets <span class="badge badge-cyan">Temporal</span></div>
-          <div class="arch-item">CSV / JSON <span class="badge badge-cyan">Export</span></div>
-          <div class="arch-item">Email SMTP <span class="badge badge-orange">Diario</span></div>
-          <div class="arch-item">Telegram Bot <span class="badge badge-orange">Alertas</span></div>
+          <div class="arch-item">HubSpot CRM <span class="badge badge-orange">Principal</span></div>
+          <div class="arch-item">Google Sheets <span class="badge badge-cyan">Reporting</span></div>
+          <div class="arch-item">Email SMTP <span class="badge badge-cyan">Directivos</span></div>
+          <div class="arch-item">Telegram Bot <span class="badge badge-cyan">Alertas</span></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 3: DATA COLLECTION -->
+  <!-- SLIDE 3: ENGINY - LEAD SOURCE -->
   <div class="slide" id="slide-3">
-    <div class="slide-tag">Paso 1</div>
-    <h2>Recoleccion de Datos</h2>
-    <p>6 fuentes de datos alimentan el analisis de cada empresa automaticamente.</p>
+    <div class="slide-tag">Paso 1 — Enginy</div>
+    <h2>Enginy: La Fuente de Leads</h2>
+    <p>Plataforma de prospeccion B2B que identifica empresas afines al ICP en 7 mercados.</p>
+    <div class="cards-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 900px;">
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>Identificacion ICP</h3>
+        <p>Busca empresas que encajan con el Perfil de Cliente Ideal de cada linea de negocio: Boostic, Digital Tech, Binnacle, Digital Business.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌍</div>
+        <h3>7 Mercados</h3>
+        <p>Espana, Portugal, Italia, Holanda, Alemania, Mexico y Colombia. Extensible con un fichero YAML por pais.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <h3>Filtrado Inteligente</h3>
+        <p>Filtra por sector, tamano, pais y actividad digital. Solo las empresas relevantes pasan al Brain para analisis.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <h3>Entrega Automatica</h3>
+        <p>Los dominios identificados se envian automaticamente a Redegal Brain via API. Sin intervencion manual.</p>
+      </div>
+    </div>
+    <div class="flow" style="margin-top: 24px;">
+      <div class="flow-node" style="border-color:var(--green);">
+        <div class="label">Enginy</div>
+        <div class="sub">Identifica leads</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="border-color:var(--accent);">
+        <div class="label">Redegal Brain</div>
+        <div class="sub">Analiza y puntua</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: DATA ENRICHMENT (BRAIN STEP 1) -->
+  <div class="slide" id="slide-4">
+    <div class="slide-tag">Paso 2 — Brain: Enriquecimiento</div>
+    <h2>6 Fuentes de Datos</h2>
+    <p>Redegal Brain enriquece cada lead de Enginy con datos de 6 fuentes automaticamente.</p>
     <div class="cards-grid">
       <div class="card">
         <div class="card-icon">🛠️</div>
@@ -837,7 +875,7 @@ tr:hover td { background: rgba(59,130,246,0.05); }
       <div class="card">
         <div class="card-icon">💰</div>
         <h3>Datos Financieros</h3>
-        <p>SABI, AIDA, Orbis, SIEM, RUES — ingresos, empleados, sector, pais.</p>
+        <p>SABI, AIDA, Orbis, SIEM, RUES — ingresos, empleados, sector, por pais.</p>
       </div>
       <div class="card">
         <div class="card-icon">🌐</div>
@@ -847,9 +885,9 @@ tr:hover td { background: rgba(59,130,246,0.05); }
     </div>
   </div>
 
-  <!-- SLIDE 4: SCORING -->
-  <div class="slide" id="slide-4">
-    <div class="slide-tag">Paso 2</div>
+  <!-- SLIDE 5: SCORING (BRAIN STEP 2) -->
+  <div class="slide" id="slide-5">
+    <div class="slide-tag">Paso 3 — Brain: Scoring</div>
     <h2>Scoring por Linea de Negocio</h2>
     <p>Cada empresa recibe un score 0-100 para cada linea, basado en 5 dimensiones con pesos configurables.</p>
     <div class="table-wrap">
@@ -909,330 +947,274 @@ tr:hover td { background: rgba(59,130,246,0.05); }
       </table>
     </div>
     <div style="display:flex; gap:12px; margin-top:20px;">
-      <span class="badge badge-green" style="font-size:13px; padding:6px 14px;">🔥 Hot ≥ 70</span>
-      <span class="badge badge-orange" style="font-size:13px; padding:6px 14px;">🌡️ Warm ≥ 45</span>
-      <span class="badge badge-blue" style="font-size:13px; padding:6px 14px;">❄️ Cold &lt; 45</span>
+      <span class="badge badge-green" style="font-size:13px; padding:6px 14px;">Hot &ge; 70</span>
+      <span class="badge badge-orange" style="font-size:13px; padding:6px 14px;">Warm &ge; 45</span>
+      <span class="badge badge-blue" style="font-size:13px; padding:6px 14px;">Cold &lt; 45</span>
     </div>
   </div>
 
-  <!-- SLIDE 5: EJEMPLO REAL -->
-  <div class="slide" id="slide-5">
+  <!-- SLIDE 6: EJEMPLO REAL -->
+  <div class="slide" id="slide-6">
     <div class="slide-tag">Ejemplo Real</div>
-    <h2>Casa del Libro — Lead Analizado</h2>
-    <p>Asi se ve un lead completo despues de pasar por el pipeline.</p>
+    <h2>Casa del Libro — Pipeline Completo</h2>
+    <p>Asi fluye un lead desde Enginy hasta HubSpot.</p>
     <div class="cards-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 800px;">
-      <div class="card">
-        <h3>📋 Datos empresa</h3>
+      <div class="card" style="border-color:var(--green);">
+        <h3>🔍 Enginy identifica</h3>
         <p>
           <strong>Dominio:</strong> casadellibro.com<br>
           <strong>Sector:</strong> Retail / e-commerce<br>
-          <strong>Pais:</strong> Espana 🇪🇸<br>
-          <strong>Empleados:</strong> ~400<br>
-          <strong>Revenue:</strong> €85M
+          <strong>Pais:</strong> Espana<br>
+          <strong>Match ICP:</strong> Boostic + Digital Biz
         </p>
       </div>
-      <div class="card">
-        <h3>🛠️ Tech Stack</h3>
+      <div class="card" style="border-color:var(--accent);">
+        <h3>🧠 Brain enriquece</h3>
         <p>
           <strong>Plataforma:</strong> Custom Java<br>
-          <strong>Analytics:</strong> GA4, Hotjar<br>
-          <strong>CMS:</strong> Custom<br>
-          <strong>Pagos:</strong> Redsys, PayPal<br>
-          <strong>CDN:</strong> Akamai
+          <strong>PageSpeed:</strong> 42/100<br>
+          <strong>Revenue:</strong> 85M EUR<br>
+          <strong>Empleados:</strong> ~400
         </p>
       </div>
-      <div class="card">
-        <h3>📊 Scores</h3>
+      <div class="card" style="border-color:var(--purple);">
+        <h3>📊 Brain puntua</h3>
         <p>
-          <span class="badge badge-green">Boostic: 82 🔥</span><br><br>
-          <span class="badge badge-orange">Digital Tech: 65 🌡️</span><br><br>
-          <span class="badge badge-blue">Binnacle: 42 ❄️</span><br><br>
-          <span class="badge badge-green">Digital Biz: 78 🔥</span>
+          <span class="badge badge-green">Boostic: 82 Hot</span><br><br>
+          <span class="badge badge-orange">Digital Tech: 65 Warm</span><br><br>
+          <span class="badge badge-blue">Binnacle: 42 Cold</span><br><br>
+          <span class="badge badge-green">Digital Biz: 78 Hot</span>
         </p>
       </div>
-      <div class="card">
-        <h3>💬 Outreach generado</h3>
+      <div class="card" style="border-color:var(--orange);">
+        <h3>📤 Llega a HubSpot</h3>
         <p style="font-style: italic; font-size: 13px;">
-          "Hemos analizado casadellibro.com y detectamos una oportunidad de optimizacion SEO significativa.
-          Con un Core Web Vitals de 45/100 y plataforma legacy Java, una migracion a headless commerce
-          podria mejorar conversion un 15-20%..."
+          Contacto + Deal creado con outreach:
+          "Hemos analizado casadellibro.com y detectamos oportunidad de optimizacion SEO.
+          Con Core Web Vitals de 42 y plataforma legacy Java, una migracion a headless commerce
+          mejoraria conversion un 15-20%..."
         </p>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 6: CRM ARCHITECTURE -->
-  <div class="slide" id="slide-6">
-    <div class="slide-tag">Integracion CRM</div>
-    <h2>Arquitectura de Outputs</h2>
-    <p>Sistema de adaptadores pluggables: anadir un CRM nuevo = 1 fichero YAML.</p>
-    <div class="arch-container" style="max-width: 800px;">
-      <div class="arch-layer">
-        <div class="arch-layer-title">🔌 BaseOutput (ABC — Clase Abstracta)</div>
-        <div class="arch-items">
-          <div class="arch-item">export_lead()</div>
-          <div class="arch-item">export_scores()</div>
-          <div class="arch-item">export_pipeline_run()</div>
-          <div class="arch-item">health_check()</div>
-        </div>
-      </div>
-      <div class="arch-arrows">▼ implementa ▼</div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
-        <div class="arch-layer" style="border-color: var(--green);">
-          <div class="arch-layer-title">Enginy CRM</div>
-          <div class="arch-items">
-            <div class="arch-item">config/crm/enginy.yaml</div>
-            <div class="arch-item">GenericCRMOutput</div>
-          </div>
-        </div>
-        <div class="arch-layer" style="border-color: var(--orange);">
-          <div class="arch-layer-title">HubSpot</div>
-          <div class="arch-items">
-            <div class="arch-item">hubspot-api-client</div>
-            <div class="arch-item">HubSpotOutput</div>
-          </div>
-        </div>
-        <div class="arch-layer" style="border-color: var(--cyan);">
-          <div class="arch-layer-title">Google Sheets</div>
-          <div class="arch-items">
-            <div class="arch-item">gspread</div>
-            <div class="arch-item">SheetsOutput</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <p style="margin-top: 20px; font-size: 14px;">
-      El <span class="badge badge-purple">GenericCRMOutput</span> lee field mappings de YAML — no necesitas codigo para anadir Salesforce, Pipedrive, etc.
-    </p>
-  </div>
-
-  <!-- SLIDE 7: ENGINY -->
+  <!-- SLIDE 7: REDEGAL BRAIN -->
   <div class="slide" id="slide-7">
-    <div class="slide-tag">CRM: Enginy</div>
-    <h2>Integracion con Enginy</h2>
-    <p>CRM actual de Redegal. Configuracion 100% declarativa via YAML.</p>
+    <div class="slide-tag">Redegal Brain</div>
+    <h2>El Corazon Inteligente</h2>
+    <p>Recibe leads de Enginy, los analiza, puntua y genera outreach. Todo automatico.</p>
     <div class="cards-grid" style="grid-template-columns: 1fr 1fr; max-width: 900px;">
       <div class="card">
-        <h3>📄 enginy.yaml</h3>
-        <div class="code-block" style="margin-top: 10px; font-size: 12px;">
-          <span class="comment"># config/crm/enginy.yaml</span><br>
-          <span class="key">base_url</span>: https://api.enginy.com/v1<br>
-          <span class="key">auth</span>: bearer (ENGINY_API_TOKEN)<br><br>
-          <span class="comment"># Endpoints</span><br>
-          contacts: POST/PUT/GET/DELETE<br>
-          deals: POST/PUT<br>
-          health: GET<br><br>
-          <span class="comment"># Field mapping</span><br>
-          domain → company_domain<br>
-          total_score → score<br>
-          classification → stage<br>
-        </div>
-      </div>
-      <div class="card">
-        <h3>🔄 Flujo de datos</h3>
+        <h3>🔬 3 fases del Brain</h3>
         <div class="pipeline" style="margin-top: 10px;">
           <div class="pipeline-step">
             <div class="pipeline-num" style="width:28px;height:28px;font-size:12px;">1</div>
             <div class="pipeline-content">
-              <h4 style="font-size:14px;">Lead analizado</h4>
-              <p>Pipeline completa el analisis</p>
+              <h4 style="font-size:14px;">Enriquecimiento</h4>
+              <p>6 collectors recopilan datos del lead</p>
             </div>
           </div>
           <div class="pipeline-step">
-            <div class="pipeline-num" style="width:28px;height:28px;font-size:12px;background:rgba(34,197,94,0.3);border-color:var(--green);">2</div>
+            <div class="pipeline-num" style="width:28px;height:28px;font-size:12px;background:rgba(168,85,247,0.3);border-color:var(--purple);">2</div>
             <div class="pipeline-content">
-              <h4 style="font-size:14px;">Crear contacto</h4>
-              <p>POST /contacts con field mapping</p>
+              <h4 style="font-size:14px;">Scoring</h4>
+              <p>5 dimensiones × 4 lineas de negocio</p>
             </div>
           </div>
           <div class="pipeline-step">
-            <div class="pipeline-num" style="width:28px;height:28px;font-size:12px;background:rgba(168,85,247,0.3);border-color:var(--purple);">3</div>
+            <div class="pipeline-num" style="width:28px;height:28px;font-size:12px;background:rgba(34,197,94,0.3);border-color:var(--green);">3</div>
             <div class="pipeline-content">
-              <h4 style="font-size:14px;">Crear deal</h4>
-              <p>Con scores, BU y clasificacion</p>
+              <h4 style="font-size:14px;">Outreach IA</h4>
+              <p>Claude genera mensaje personalizado</p>
             </div>
           </div>
-          <div class="pipeline-step">
-            <div class="pipeline-num" style="width:28px;height:28px;font-size:12px;background:rgba(245,158,11,0.3);border-color:var(--orange);">4</div>
-            <div class="pipeline-content">
-              <h4 style="font-size:14px;">Cross-sell tags</h4>
-              <p>Si score > threshold en otra BU</p>
-            </div>
-          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>⚙️ Tecnologia</h3>
+        <div style="margin-top:10px;">
+          <div class="comparison-item"><span style="color:var(--accent)">●</span> FastAPI + SQLAlchemy async</div>
+          <div class="comparison-item"><span style="color:var(--accent)">●</span> Claude API (Anthropic) para outreach</div>
+          <div class="comparison-item"><span style="color:var(--accent)">●</span> Scoring determinista (Python puro)</div>
+          <div class="comparison-item"><span style="color:var(--accent)">●</span> Pesos configurables en YAML</div>
+          <div class="comparison-item"><span style="color:var(--accent)">●</span> Multi-idioma (idioma del mercado)</div>
+          <div class="comparison-item"><span style="color:var(--accent)">●</span> Rate limiter + retry automatico</div>
+          <div class="comparison-item"><span style="color:var(--accent)">●</span> Chat bot dual Claude/OpenAI</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 8: HUBSPOT -->
+  <!-- SLIDE 8: HUBSPOT CRM -->
   <div class="slide" id="slide-8">
-    <div class="slide-tag">CRM: HubSpot</div>
-    <h2>Integracion con HubSpot</h2>
-    <p>Para equipos enterprise con HubSpot ya desplegado. Usa la API oficial.</p>
+    <div class="slide-tag">CRM Destino</div>
+    <h2>HubSpot — Donde aterrizan los leads</h2>
+    <p>Los leads cualificados por Redegal Brain se sincronizan automaticamente con HubSpot.</p>
     <div class="cards-grid" style="grid-template-columns: 1fr 1fr; max-width: 900px;">
       <div class="card">
-        <h3>⚙️ Configuracion</h3>
+        <h3>⚙️ Custom Properties</h3>
         <div class="code-block" style="margin-top: 10px; font-size: 12px;">
-          <span class="comment"># .env</span><br>
+          <span class="comment"># Propiedades creadas en HubSpot</span><br>
+          <span class="key">prospeccion_score</span> (number) 0-100<br>
+          <span class="key">prospeccion_classification</span> (enum)<br>
+          &nbsp;&nbsp;hot | warm | cold<br>
+          <span class="key">prospeccion_business_line</span> (enum)<br>
+          &nbsp;&nbsp;boostic | digitaltech | ...<br>
+          <span class="key">prospeccion_tech_stack</span> (text)<br>
+          <span class="key">prospeccion_outreach</span> (text)<br><br>
+          <span class="comment"># Activacion</span><br>
           <span class="key">HUBSPOT_ENABLED</span>=true<br>
-          <span class="key">HUBSPOT_ACCESS_TOKEN</span>=pat-...<br><br>
-          <span class="comment"># Instalacion</span><br>
-          <span class="cmd">pip install -e ".[hubspot]"</span><br><br>
-          <span class="comment"># Custom properties creadas:</span><br>
-          prospeccion_score (number)<br>
-          prospeccion_classification (enum)<br>
-          prospeccion_business_line (enum)<br>
-          prospeccion_tech_stack (text)<br>
+          <span class="key">HUBSPOT_ACCESS_TOKEN</span>=pat-...
         </div>
       </div>
       <div class="card">
-        <h3>🔄 Sync bidireccional</h3>
+        <h3>🔄 Que se sincroniza</h3>
         <div style="margin-top: 10px;">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
             <span style="font-size:28px;">🧠</span>
             <span class="flow-arrow">→</span>
             <span style="font-size:28px;">🟠</span>
-            <span style="font-size:14px;color:var(--text-dim);">Leads + scores → HubSpot contacts</span>
+            <span style="font-size:14px;color:var(--text-dim);">Contactos con scores y tech stack</span>
           </div>
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
             <span style="font-size:28px;">🧠</span>
             <span class="flow-arrow">→</span>
             <span style="font-size:28px;">🟠</span>
-            <span style="font-size:14px;color:var(--text-dim);">Deals por linea → HubSpot deals</span>
+            <span style="font-size:14px;color:var(--text-dim);">Deals por linea de negocio</span>
           </div>
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
             <span style="font-size:28px;">🧠</span>
             <span class="flow-arrow">→</span>
             <span style="font-size:28px;">🟠</span>
-            <span style="font-size:14px;color:var(--text-dim);">Outreach → HubSpot notes</span>
+            <span style="font-size:14px;color:var(--text-dim);">Outreach IA como notas</span>
           </div>
           <div style="display:flex;align-items:center;gap:12px;">
             <span style="font-size:28px;">🟠</span>
             <span class="flow-arrow">→</span>
             <span style="font-size:28px;">🧠</span>
-            <span style="font-size:14px;color:var(--text-dim);">Deal stage changes → Webhooks</span>
+            <span style="font-size:14px;color:var(--text-dim);">Cambios de stage via webhooks</span>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- SLIDE 9: ENGINY vs HUBSPOT -->
+  <!-- SLIDE 9: FULL PIPELINE -->
   <div class="slide" id="slide-9">
-    <div class="slide-tag">Comparativa</div>
-    <h2>Enginy vs HubSpot</h2>
-    <p>Ambos CRMs estan soportados. La diferencia es en el metodo de integracion.</p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Caracteristica</th>
-            <th>Enginy</th>
-            <th>HubSpot</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Metodo de integracion</td>
-            <td><span class="badge badge-green">GenericCRMOutput + YAML</span></td>
-            <td><span class="badge badge-orange">HubSpotOutput dedicado</span></td>
-          </tr>
-          <tr>
-            <td>Configuracion</td>
-            <td>config/crm/enginy.yaml</td>
-            <td>.env (HUBSPOT_ENABLED + TOKEN)</td>
-          </tr>
-          <tr>
-            <td>Field mapping</td>
-            <td>Declarativo en YAML</td>
-            <td>Custom properties via API</td>
-          </tr>
-          <tr>
-            <td>Auth</td>
-            <td>Bearer token</td>
-            <td>Private app token</td>
-          </tr>
-          <tr>
-            <td>Dependencia extra</td>
-            <td>Ninguna</td>
-            <td>hubspot-api-client (pip)</td>
-          </tr>
-          <tr>
-            <td>Anadir nuevo CRM</td>
-            <td><span class="badge badge-green">Solo YAML</span></td>
-            <td>Requiere nuevo adapter Python</td>
-          </tr>
-          <tr>
-            <td>Cross-sell</td>
-            <td>Via custom fields en YAML</td>
-            <td>Via custom properties</td>
-          </tr>
-          <tr>
-            <td>Ideal para</td>
-            <td><span class="badge badge-blue">Pymes, CRMs custom</span></td>
-            <td><span class="badge badge-purple">Enterprise, equipos grandes</span></td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="slide-tag">Pipeline Completo</div>
+    <h2>El flujo de extremo a extremo</h2>
+    <p>Desde la identificacion del lead hasta el deal en HubSpot, sin intervencion manual.</p>
+    <div class="pipeline" style="max-width: 850px;">
+      <div class="pipeline-step" style="border-color: var(--green);">
+        <div class="pipeline-num" style="background:rgba(34,197,94,0.3);border-color:var(--green);">1</div>
+        <div class="pipeline-content">
+          <h4>Enginy identifica empresa</h4>
+          <p>Match con ICP en sector, tamano y pais. Dominio enviado al Brain.</p>
+        </div>
+        <div class="pipeline-tag" style="color:var(--green);">Enginy</div>
+      </div>
+      <div class="pipeline-step" style="border-color: var(--accent);">
+        <div class="pipeline-num">2</div>
+        <div class="pipeline-content">
+          <h4>Brain: Recopilar datos (6 fuentes)</h4>
+          <p>BuiltWith, DataForSEO, PageSpeed, SerpAPI, Financiero, Playwright.</p>
+        </div>
+        <div class="pipeline-tag" style="color:var(--accent);">Brain</div>
+      </div>
+      <div class="pipeline-step" style="border-color: var(--accent);">
+        <div class="pipeline-num">3</div>
+        <div class="pipeline-content">
+          <h4>Brain: Scoring (5 dimensiones × 4 BU)</h4>
+          <p>ICP Fit, Need, Timing, Investment, Accessibility. Hot/Warm/Cold.</p>
+        </div>
+        <div class="pipeline-tag" style="color:var(--accent);">Brain</div>
+      </div>
+      <div class="pipeline-step" style="border-color: var(--accent);">
+        <div class="pipeline-num">4</div>
+        <div class="pipeline-content">
+          <h4>Brain: Outreach personalizado (Claude IA)</h4>
+          <p>Mensaje en idioma del mercado con datos especificos del lead.</p>
+        </div>
+        <div class="pipeline-tag" style="color:var(--accent);">Brain</div>
+      </div>
+      <div class="pipeline-step" style="border-color: var(--orange);">
+        <div class="pipeline-num" style="background:rgba(245,158,11,0.3);border-color:var(--orange);">5</div>
+        <div class="pipeline-content">
+          <h4>HubSpot: Contacto + Deal + Outreach</h4>
+          <p>Lead cualificado listo para el equipo comercial en el CRM.</p>
+        </div>
+        <div class="pipeline-tag" style="color:var(--orange);">HubSpot</div>
+      </div>
     </div>
-    <p style="margin-top: 20px; font-size: 14px;">
-      Tip: Puedes usar ambos simultaneamente. El pipeline exporta a todos los outputs activos.
-    </p>
+    <div class="flow" style="margin-top:20px;">
+      <div class="flow-node" style="border-color:var(--cyan); min-width:110px; padding:10px 14px;">
+        <div class="label" style="font-size:12px;">Google Sheets</div>
+        <div class="sub">Reporting</div>
+      </div>
+      <div class="flow-node" style="border-color:var(--cyan); min-width:110px; padding:10px 14px;">
+        <div class="label" style="font-size:12px;">Email SMTP</div>
+        <div class="sub">Directivos</div>
+      </div>
+      <div class="flow-node" style="border-color:var(--cyan); min-width:110px; padding:10px 14px;">
+        <div class="label" style="font-size:12px;">Telegram</div>
+        <div class="sub">Hot leads</div>
+      </div>
+    </div>
   </div>
 
   <!-- SLIDE 10: DAILY FLOW -->
   <div class="slide" id="slide-10">
     <div class="slide-tag">Operacion Diaria</div>
-    <h2>Flujo completo: dia a dia</h2>
+    <h2>Flujo dia a dia</h2>
     <p>Asi funciona el sistema en produccion, sin intervencion manual.</p>
     <div class="pipeline" style="max-width: 800px;">
-      <div class="pipeline-step">
-        <div class="pipeline-num">1</div>
+      <div class="pipeline-step" style="border-color: var(--green);">
+        <div class="pipeline-num" style="background:rgba(34,197,94,0.3);border-color:var(--green);">1</div>
         <div class="pipeline-content">
-          <h4>06:00 — Pipeline automatico (n8n / cron)</h4>
-          <p>Analiza nuevos dominios pendientes. Collectors recopilan datos.</p>
+          <h4>06:00 — Enginy entrega nuevos leads</h4>
+          <p>Empresas identificadas durante la noche, enviadas al Brain via API.</p>
         </div>
-        <div class="pipeline-tag">Automatico</div>
+        <div class="pipeline-tag" style="color:var(--green);">Enginy</div>
       </div>
       <div class="pipeline-step">
         <div class="pipeline-num">2</div>
         <div class="pipeline-content">
-          <h4>06:30 — Scoring + Clasificacion</h4>
-          <p>5 analyzers calculan score por linea. Hot/Warm/Cold asignado.</p>
+          <h4>06:30 — Brain: Enriquecimiento</h4>
+          <p>6 collectors recopilan tech stack, SEO, PageSpeed, noticias, financieros.</p>
         </div>
-        <div class="pipeline-tag">Automatico</div>
+        <div class="pipeline-tag">Brain</div>
       </div>
       <div class="pipeline-step">
         <div class="pipeline-num">3</div>
         <div class="pipeline-content">
-          <h4>07:00 — Outreach generado por IA</h4>
-          <p>Claude genera mensaje personalizado para leads Hot en idioma del mercado.</p>
+          <h4>07:00 — Brain: Scoring + Outreach IA</h4>
+          <p>5 analyzers calculan scores. Claude genera outreach en idioma del mercado.</p>
         </div>
-        <div class="pipeline-tag">Automatico</div>
-      </div>
-      <div class="pipeline-step">
-        <div class="pipeline-num">4</div>
-        <div class="pipeline-content">
-          <h4>07:15 — Sync a CRM (Enginy / HubSpot)</h4>
-          <p>Leads, scores, deals y outreach sincronizados automaticamente.</p>
-        </div>
-        <div class="pipeline-tag">Automatico</div>
+        <div class="pipeline-tag">Brain</div>
       </div>
       <div class="pipeline-step" style="border-color: var(--orange);">
-        <div class="pipeline-num" style="background:rgba(245,158,11,0.3);border-color:var(--orange);">5</div>
+        <div class="pipeline-num" style="background:rgba(245,158,11,0.3);border-color:var(--orange);">4</div>
+        <div class="pipeline-content">
+          <h4>07:15 — Sync a HubSpot</h4>
+          <p>Leads cualificados con scores, deals y outreach sincronizados al CRM.</p>
+        </div>
+        <div class="pipeline-tag" style="color:var(--orange);">HubSpot</div>
+      </div>
+      <div class="pipeline-step" style="border-color: var(--cyan);">
+        <div class="pipeline-num" style="background:rgba(6,182,212,0.3);border-color:var(--cyan);">5</div>
         <div class="pipeline-content">
           <h4>08:00 — Email diario a directivos</h4>
           <p>CEO, COO, directores de BU reciben informe filtrado por su linea.</p>
         </div>
-        <div class="pipeline-tag" style="color:var(--orange);">SMTP</div>
+        <div class="pipeline-tag" style="color:var(--cyan);">SMTP</div>
       </div>
-      <div class="pipeline-step" style="border-color: var(--cyan);">
-        <div class="pipeline-num" style="background:rgba(6,182,212,0.3);border-color:var(--cyan);">6</div>
+      <div class="pipeline-step" style="border-color: var(--purple);">
+        <div class="pipeline-num" style="background:rgba(168,85,247,0.3);border-color:var(--purple);">6</div>
         <div class="pipeline-content">
-          <h4>Continuo — Alerta hot leads (Telegram)</h4>
+          <h4>Continuo — Alertas hot leads (Telegram)</h4>
           <p>Si score > 70, notificacion instantanea al canal del equipo.</p>
         </div>
-        <div class="pipeline-tag" style="color:var(--cyan);">Real-time</div>
+        <div class="pipeline-tag" style="color:var(--purple);">Real-time</div>
       </div>
     </div>
   </div>
@@ -1241,7 +1223,7 @@ tr:hover td { background: rgba(59,130,246,0.05); }
   <div class="slide" id="slide-11">
     <div class="slide-tag">Numeros</div>
     <h2>Metricas del Sistema</h2>
-    <p>Capacidad actual del sistema con 7 mercados configurados.</p>
+    <p>Capacidad actual del pipeline con 7 mercados configurados.</p>
     <div class="metrics">
       <div class="metric">
         <div class="value">7</div>
@@ -1266,8 +1248,8 @@ tr:hover td { background: rgba(59,130,246,0.05); }
         <div class="label">Por Lead</div>
       </div>
       <div class="metric">
-        <div class="value">3</div>
-        <div class="label">CRM Outputs</div>
+        <div class="value">HubSpot</div>
+        <div class="label">CRM Destino</div>
       </div>
       <div class="metric">
         <div class="value">433</div>
@@ -1281,9 +1263,9 @@ tr:hover td { background: rgba(59,130,246,0.05); }
     <p style="margin-top: 24px; font-size: 14px;">
       <span class="badge badge-green" style="font-size:13px;padding:6px 14px;">Anadir pais = 1 YAML</span>
       <span style="margin: 0 8px;">|</span>
-      <span class="badge badge-purple" style="font-size:13px;padding:6px 14px;">Anadir CRM = 1 YAML</span>
+      <span class="badge badge-purple" style="font-size:13px;padding:6px 14px;">Anadir BU = 1 YAML</span>
       <span style="margin: 0 8px;">|</span>
-      <span class="badge badge-cyan" style="font-size:13px;padding:6px 14px;">Anadir BU = 1 YAML</span>
+      <span class="badge badge-cyan" style="font-size:13px;padding:6px 14px;">Extensible sin codigo</span>
     </p>
   </div>
 
@@ -1307,24 +1289,21 @@ tr:hover td { background: rgba(59,130,246,0.05); }
     </div>
     <div class="flow" style="margin-top: 30px;">
       <div class="flow-node" style="border-color:var(--green);">
-        <div class="icon">🚀</div>
-        <div class="label">Dashboard</div>
-        <div class="sub">localhost:8000</div>
+        <div class="icon">🔍</div>
+        <div class="label">Enginy</div>
+        <div class="sub">Lead Source</div>
       </div>
-      <div class="flow-node" style="border-color:var(--purple);">
-        <div class="icon">📖</div>
-        <div class="label">API Docs</div>
-        <div class="sub">/docs</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="border-color:var(--accent);">
+        <div class="icon">🧠</div>
+        <div class="label">Brain</div>
+        <div class="sub">Inteligencia</div>
       </div>
-      <div class="flow-node" style="border-color:var(--cyan);">
-        <div class="icon">💬</div>
-        <div class="label">Chat IA</div>
-        <div class="sub">CLI o Web</div>
-      </div>
+      <div class="flow-arrow">→</div>
       <div class="flow-node" style="border-color:var(--orange);">
         <div class="icon">📊</div>
-        <div class="label">CRM Sync</div>
-        <div class="sub">Enginy / HubSpot</div>
+        <div class="label">HubSpot</div>
+        <div class="sub">CRM</div>
       </div>
     </div>
     <p style="margin-top: 20px; color: var(--text-dim); font-size: 14px;">
@@ -1347,19 +1326,19 @@ const MIN_SLIDE_TIME = 8000;
 
 // ==================== NARRATION TEXTS (for subtitles) ====================
 const narrations = [
-  "Bienvenidos a la demo interactiva del flujo CRM de Redegal Prospección. En los próximos cinco minutos veremos cómo el sistema conecta fuentes de datos, analiza empresas con inteligencia artificial, y sincroniza leads cualificados con tu CRM, ya sea Enginy o HubSpot.",
-  "El reto es claro. La prospección manual no escala. El equipo comercial dedica horas a investigar empresas una por una, sin datos objetivos para priorizar. Con Redegal Prospección, todo cambia: análisis automatizado de cinco fuentes, scoring de cero a cien por línea de negocio, y outreach personalizado generado por inteligencia artificial.",
-  "La arquitectura del sistema tiene tres capas. La capa de recolección con seis fuentes de datos. La capa de análisis con cinco dimensiones de scoring y Claude para generar outreach personalizado. Y la capa de salida con tres destinos CRM, más email diario y alertas por Telegram.",
-  "El primer paso es la recolección de datos. Seis fuentes alimentan el análisis de cada empresa: BuiltWith para tech stack, DataForSEO para SEO, PageSpeed para rendimiento, SerpAPI para noticias, datos financieros locales, y Playwright como crawler inteligente.",
-  "El segundo paso es el scoring. Cada empresa recibe un score de cero a cien para cada una de las cuatro líneas de negocio, calculado con cinco dimensiones con pesos configurables. Un score mayor o igual a setenta es hot, mayor o igual a cuarenta y cinco es warm, y por debajo es cold.",
-  "Veamos un ejemplo real. Casa del Libro, la mayor cadena de librerías de España. El sistema detecta más de quinientas mil referencias, plataforma custom Java, y un PageSpeed de solo cuarenta y dos. Scores: ochenta y dos en Boostic hot, sesenta y cinco en Digital Tech warm. Claude genera automáticamente un mensaje de outreach personalizado.",
-  "La arquitectura de outputs es modular y extensible. Todo parte de BaseOutput, una clase abstracta. Enginy usa el GenericCRMOutput que lee configuración de YAML. HubSpot tiene un adaptador dedicado. Para añadir un nuevo CRM, solo necesitas un fichero YAML con endpoints y mapeo de campos. Cero código.",
-  "Enginy es el CRM actual de Redegal, con integración cien por cien declarativa. El fichero YAML define URL, autenticación, endpoints y mapeo de campos. Cuando el pipeline completa el análisis, el flujo es automático: crear contacto, crear deal con scores, y añadir tags de cross-sell.",
-  "Para equipos enterprise con HubSpot, la integración usa la API oficial con custom properties. Se activa con dos variables de entorno. El sistema sincroniza leads, deals y outreach, y recibe webhooks para sincronización bidireccional.",
-  "Comparativa rápida: Enginy usa el adaptador genérico con YAML, ideal para pymes. HubSpot tiene adaptador dedicado, ideal para enterprise. Lo mejor: puedes usar ambos simultáneamente. El pipeline exporta a todos los outputs activos en paralelo.",
-  "Así funciona el sistema día a día. A las seis, pipeline automático. A las seis y media, scoring. A las siete, outreach por IA. A las siete y cuarto, sync a CRM. A las ocho, email diario a directivos. Y de forma continua, alertas de hot leads en Telegram.",
-  "Los números: siete países, cuatro líneas de negocio, seis fuentes de datos, cinco dimensiones de scoring. Solo dos minutos por lead. Tres outputs de CRM. Cuatrocientos treinta y tres tests. Todo funcionando veinticuatro siete. Añadir país, CRM o línea de negocio: un fichero YAML.",
-  "Empezar es fácil. Clona el repositorio, ejecuta bash install punto sh, y el instalador interactivo te guía en cinco minutos. Luego activa el entorno virtual, arranca uvicorn, y abre el dashboard. Gracias por ver esta demo. El sistema está listo para producción."
+  "Bienvenidos a la demo interactiva de Redegal Prospección. En los próximos cinco minutos veremos cómo funciona el pipeline completo: desde Enginy, la plataforma de prospección B2B que identifica empresas afines al perfil de cliente ideal, pasando por Redegal Brain, la capa de inteligencia que analiza, puntúa y genera outreach personalizado con IA, hasta HubSpot, el CRM donde aterrizan los leads cualificados listos para el equipo comercial.",
+  "El reto es claro. La prospección manual no escala. El equipo comercial dedica horas a investigar empresas una por una, sin datos objetivos para priorizar. Con el pipeline inteligente, todo cambia: Enginy identifica empresas afines al ICP, Redegal Brain las analiza con seis fuentes de datos, las puntúa de cero a cien por línea de negocio, y los leads cualificados llegan directamente a HubSpot con outreach personalizado. De treinta minutos por lead a solo dos.",
+  "La arquitectura tiene tres bloques. Primero, Enginy como plataforma de prospección B2B que identifica empresas en siete mercados y las envía al sistema. Segundo, Redegal Brain, la capa de inteligencia que enriquece cada lead con seis fuentes de datos, aplica scoring en cinco dimensiones, y genera outreach personalizado con Claude. Y tercero, HubSpot como CRM de destino, donde aterrizan los leads cualificados, junto con Google Sheets para reporting, email diario a directivos y alertas por Telegram.",
+  "Enginy es la plataforma de prospección B2B que alimenta todo el pipeline. Busca empresas en siete mercados que encajan con el perfil de cliente ideal de cada línea de negocio. Filtra por sector, tamaño, país y actividad digital. Las empresas identificadas se envían automáticamente a Redegal Brain para su análisis completo. Es el primer eslabón de la cadena: sin Enginy, no hay leads que analizar.",
+  "Una vez que Enginy identifica un lead, Redegal Brain lo enriquece con seis fuentes de datos. BuiltWith para tech stack completo. DataForSEO para métricas SEO. PageSpeed para rendimiento web. SerpAPI para noticias y señales de timing. Datos financieros de fuentes locales según el país. Y Playwright como crawler inteligente cuando las APIs no devuelven datos suficientes.",
+  "El segundo paso del Brain es el scoring. Cada empresa recibe un score de cero a cien para cada una de las cuatro líneas de negocio. El score se calcula con cinco dimensiones, cada una con pesos configurables por línea. ICP Fit, Need Detected, Timing, Investment Capacity y Accessibility. Un score mayor o igual a setenta es hot, mayor o igual a cuarenta y cinco es warm, y por debajo es cold.",
+  "Veamos un ejemplo real. Casa del Libro llega desde Enginy como empresa identificada en el ICP de Boostic. Redegal Brain la analiza: e-commerce con plataforma custom Java, más de quinientas mil referencias, y un PageSpeed de solo cuarenta y dos. Los scores: ochenta y dos en Boostic categoría hot, sesenta y cinco en Digital Tech warm. Claude genera un mensaje de outreach personalizado. Todo esto llega a HubSpot como un contacto y deal cualificado con el outreach listo para el comercial.",
+  "Redegal Brain es el corazón inteligente del sistema. Recibe leads desde Enginy y ejecuta tres fases: enriquecimiento de datos con seis fuentes, scoring determinista con cinco dimensiones por línea de negocio, y generación de outreach personalizado con Claude en el idioma del mercado. Todo sin intervención humana. El resultado: leads cualificados con toda la información necesaria para que el equipo comercial actúe con contexto.",
+  "HubSpot es el destino final del pipeline. Los leads cualificados por Redegal Brain aterrizan como contactos con custom properties: score de prospección, clasificación hot warm o cold, línea de negocio, y tech stack detectado. Los deals se crean automáticamente por línea. El outreach generado por Claude se adjunta como nota. Y con webhooks, HubSpot puede notificar cambios de stage de vuelta al sistema.",
+  "El pipeline completo en acción. Enginy identifica empresas afines al ICP en siete mercados. Redegal Brain las enriquece con seis fuentes de datos, calcula scores por línea de negocio, y genera outreach personalizado con Claude. Los leads cualificados se sincronizan automáticamente en HubSpot. En paralelo, Google Sheets recibe el reporting, los directivos reciben email diario, y Telegram alerta de hot leads en tiempo real.",
+  "Así funciona el sistema día a día. A las seis de la mañana, Enginy entrega nuevos leads identificados. A las seis y media, Redegal Brain ejecuta los collectors y enriquece cada lead. A las siete, los cinco analyzers calculan scores y Claude genera outreach. A las siete y cuarto, los leads cualificados se sincronizan con HubSpot. A las ocho, el email diario llega a los directivos filtrado por línea de negocio. Y de forma continua, cualquier hot lead genera alerta instantánea en Telegram.",
+  "Los números del sistema. Siete países configurados. Cuatro líneas de negocio. Seis fuentes de datos. Cinco dimensiones de scoring. Solo dos minutos por lead analizado. Integración completa con HubSpot como CRM de destino. Cuatrocientos treinta y tres tests pasando. Y funcionando veinticuatro siete de forma automatizada. Añadir un nuevo país, un fichero YAML. Añadir una línea de negocio, otro YAML. Todo extensible sin código.",
+  "Empezar es fácil. Clona el repositorio, ejecuta bash install punto sh, y el instalador interactivo te guía en cinco minutos. Configura API keys, SMTP, base de datos, y opcionalmente carga datos demo. Luego activa el entorno virtual, arranca uvicorn, y abre el dashboard. El pipeline Enginy, Redegal Brain, HubSpot está listo para producción. Gracias por ver esta demo."
 ];
 
 // ==================== DOTS ====================
