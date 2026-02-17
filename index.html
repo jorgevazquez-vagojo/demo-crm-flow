@@ -514,6 +514,136 @@ tr:hover td { background: rgba(59,130,246,0.05); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ── Start Overlay ──────────────────────────────────── */
+#startOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: linear-gradient(135deg, #0f1729 0%, #1a2744 50%, #0f2030 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.play-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(59,130,246,0.15);
+  border: 2px solid rgba(59,130,246,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  transition: all 0.3s;
+}
+.play-circle:hover {
+  background: rgba(59,130,246,0.3);
+  transform: scale(1.1);
+}
+
+/* ── Audio Controls ─────────────────────────────────── */
+.narration-indicator {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.3s;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.narration-indicator:hover { border-color: var(--accent); }
+
+.audio-wave {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 16px;
+}
+.audio-wave span {
+  display: block;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: wave 1s ease-in-out infinite;
+}
+.audio-wave span:nth-child(1) { height: 6px; animation-delay: 0s; }
+.audio-wave span:nth-child(2) { height: 12px; animation-delay: 0.1s; }
+.audio-wave span:nth-child(3) { height: 8px; animation-delay: 0.2s; }
+.audio-wave span:nth-child(4) { height: 14px; animation-delay: 0.3s; }
+.audio-wave span:nth-child(5) { height: 6px; animation-delay: 0.4s; }
+.audio-wave.paused span { animation: none; height: 3px; background: var(--text-dim); }
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.5); }
+  50% { transform: scaleY(1.2); }
+}
+
+.autoplay-btn {
+  position: fixed;
+  top: 20px;
+  right: 140px;
+  z-index: 60;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+.autoplay-btn:hover { border-color: var(--accent); }
+.autoplay-btn.active { background: var(--accent-glow); border-color: var(--accent); }
+
+/* ── Subtitles ──────────────────────────────────────── */
+.subtitles {
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 700px;
+  width: 90%;
+  text-align: center;
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  padding: 10px 20px;
+  border-radius: 10px;
+  z-index: 60;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  line-height: 1.5;
+}
+.subtitles.visible { opacity: 1; }
+
+/* ── Confidential ───────────────────────────────────── */
+.confidential {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.15);
+  z-index: 40;
+}
+
 /* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 768px) {
   .slide { padding: 40px 24px; }
@@ -530,11 +660,36 @@ tr:hover td { background: rgba(59,130,246,0.05); }
 </head>
 <body>
 
+<!-- START OVERLAY -->
+<div id="startOverlay" onclick="startPresentation()">
+  <div style="font-size:14px; letter-spacing:6px; color:rgba(255,255,255,0.4); text-transform:uppercase; margin-bottom:24px;">Redegal &middot; Flujo CRM</div>
+  <div class="play-circle">
+    <span style="font-size:42px; margin-left:6px;">&#9654;</span>
+  </div>
+  <div style="font-size:18px; color:var(--text); font-weight:600;">Iniciar presentacion</div>
+  <div style="font-size:13px; color:var(--text-dim); margin-top:8px;">Click para comenzar con audio</div>
+</div>
+
 <!-- Progress -->
 <div class="progress-bar" id="progressBar" style="width: 0%"></div>
 
 <!-- Brand -->
 <div class="brand">REDE<span>GAL</span></div>
+
+<!-- Audio Controls -->
+<div class="autoplay-btn" id="playBtn" onclick="toggleAutoplay()" title="Autoplay (P)">&#9654;</div>
+<div class="narration-indicator" id="narrationToggle" onclick="toggleNarration()">
+  <div class="audio-wave" id="audioWave">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <span id="narrationLabel">Audio ON</span>
+</div>
+
+<!-- Subtitles -->
+<div class="subtitles" id="subtitles"></div>
+
+<!-- Confidential -->
+<div class="confidential">Confidencial &middot; Febrero 2026</div>
 
 <!-- Nav Dots -->
 <div class="nav-dots" id="navDots"></div>
@@ -544,7 +699,7 @@ tr:hover td { background: rgba(59,130,246,0.05); }
 <div class="arrow arrow-right" onclick="nextSlide()">&#8250;</div>
 
 <!-- Counter -->
-<div class="slide-counter" id="slideCounter">1 / 12</div>
+<div class="slide-counter" id="slideCounter">1 / 13</div>
 
 <!-- Timer -->
 <div class="timer">
@@ -1180,10 +1335,34 @@ tr:hover td { background: rgba(59,130,246,0.05); }
 </div>
 
 <script>
-// ── Slides Engine ────────────────────────────────────────────────────────
+// ==================== STATE ====================
 const totalSlides = 13;
 let current = 0;
+let narrationEnabled = true;
+let isSpeaking = false;
+let currentAudio = null;
+let autoplayInterval = null;
+let slideShownAt = Date.now();
+const MIN_SLIDE_TIME = 8000;
 
+// ==================== NARRATION TEXTS (for subtitles) ====================
+const narrations = [
+  "Bienvenidos a la demo interactiva del flujo CRM de Redegal Prospección. En los próximos cinco minutos veremos cómo el sistema conecta fuentes de datos, analiza empresas con inteligencia artificial, y sincroniza leads cualificados con tu CRM, ya sea Enginy o HubSpot.",
+  "El reto es claro. La prospección manual no escala. El equipo comercial dedica horas a investigar empresas una por una, sin datos objetivos para priorizar. Con Redegal Prospección, todo cambia: análisis automatizado de cinco fuentes, scoring de cero a cien por línea de negocio, y outreach personalizado generado por inteligencia artificial.",
+  "La arquitectura del sistema tiene tres capas. La capa de recolección con seis fuentes de datos. La capa de análisis con cinco dimensiones de scoring y Claude para generar outreach personalizado. Y la capa de salida con tres destinos CRM, más email diario y alertas por Telegram.",
+  "El primer paso es la recolección de datos. Seis fuentes alimentan el análisis de cada empresa: BuiltWith para tech stack, DataForSEO para SEO, PageSpeed para rendimiento, SerpAPI para noticias, datos financieros locales, y Playwright como crawler inteligente.",
+  "El segundo paso es el scoring. Cada empresa recibe un score de cero a cien para cada una de las cuatro líneas de negocio, calculado con cinco dimensiones con pesos configurables. Un score mayor o igual a setenta es hot, mayor o igual a cuarenta y cinco es warm, y por debajo es cold.",
+  "Veamos un ejemplo real. Casa del Libro, la mayor cadena de librerías de España. El sistema detecta más de quinientas mil referencias, plataforma custom Java, y un PageSpeed de solo cuarenta y dos. Scores: ochenta y dos en Boostic hot, sesenta y cinco en Digital Tech warm. Claude genera automáticamente un mensaje de outreach personalizado.",
+  "La arquitectura de outputs es modular y extensible. Todo parte de BaseOutput, una clase abstracta. Enginy usa el GenericCRMOutput que lee configuración de YAML. HubSpot tiene un adaptador dedicado. Para añadir un nuevo CRM, solo necesitas un fichero YAML con endpoints y mapeo de campos. Cero código.",
+  "Enginy es el CRM actual de Redegal, con integración cien por cien declarativa. El fichero YAML define URL, autenticación, endpoints y mapeo de campos. Cuando el pipeline completa el análisis, el flujo es automático: crear contacto, crear deal con scores, y añadir tags de cross-sell.",
+  "Para equipos enterprise con HubSpot, la integración usa la API oficial con custom properties. Se activa con dos variables de entorno. El sistema sincroniza leads, deals y outreach, y recibe webhooks para sincronización bidireccional.",
+  "Comparativa rápida: Enginy usa el adaptador genérico con YAML, ideal para pymes. HubSpot tiene adaptador dedicado, ideal para enterprise. Lo mejor: puedes usar ambos simultáneamente. El pipeline exporta a todos los outputs activos en paralelo.",
+  "Así funciona el sistema día a día. A las seis, pipeline automático. A las seis y media, scoring. A las siete, outreach por IA. A las siete y cuarto, sync a CRM. A las ocho, email diario a directivos. Y de forma continua, alertas de hot leads en Telegram.",
+  "Los números: siete países, cuatro líneas de negocio, seis fuentes de datos, cinco dimensiones de scoring. Solo dos minutos por lead. Tres outputs de CRM. Cuatrocientos treinta y tres tests. Todo funcionando veinticuatro siete. Añadir país, CRM o línea de negocio: un fichero YAML.",
+  "Empezar es fácil. Clona el repositorio, ejecuta bash install punto sh, y el instalador interactivo te guía en cinco minutos. Luego activa el entorno virtual, arranca uvicorn, y abre el dashboard. Gracias por ver esta demo. El sistema está listo para producción."
+];
+
+// ==================== DOTS ====================
 function initDots() {
   const container = document.getElementById('navDots');
   for (let i = 0; i < totalSlides; i++) {
@@ -1194,23 +1373,18 @@ function initDots() {
   }
 }
 
+// ==================== UI UPDATE ====================
 function updateUI() {
-  // Progress
   document.getElementById('progressBar').style.width = ((current / (totalSlides - 1)) * 100) + '%';
-
-  // Counter
   document.getElementById('slideCounter').textContent = (current + 1) + ' / ' + totalSlides;
-
-  // Dots
   document.querySelectorAll('.nav-dot').forEach((d, i) => {
     d.classList.toggle('active', i === current);
   });
-
-  // Timer estimate
   const remaining = Math.ceil((totalSlides - current - 1) * 0.4);
   document.getElementById('timerDisplay').textContent = remaining > 0 ? '~' + remaining + ' min' : 'Fin';
 }
 
+// ==================== SLIDE NAVIGATION ====================
 function goToSlide(n) {
   if (n === current || n < 0 || n >= totalSlides) return;
 
@@ -1219,38 +1393,140 @@ function goToSlide(n) {
 
   oldSlide.classList.remove('active');
   oldSlide.classList.add('exit-left');
-
-  setTimeout(() => {
-    oldSlide.classList.remove('exit-left');
-  }, 500);
+  setTimeout(() => oldSlide.classList.remove('exit-left'), 500);
 
   newSlide.classList.add('active');
   current = n;
+  slideShownAt = Date.now();
   updateUI();
+
+  if (narrationEnabled) {
+    playNarration(current);
+  }
 }
 
 function nextSlide() { goToSlide(current + 1); }
 function prevSlide() { goToSlide(current - 1); }
 
-// Keyboard
-document.addEventListener('keydown', (e) => {
+// ==================== NARRATION (Pre-recorded MP3) ====================
+function playNarration(slideIndex) {
+  if (!narrationEnabled) return;
+
+  // Stop current
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
+  }
+
+  const pad = String(slideIndex).padStart(2, '0');
+  const audio = new Audio('audio/slide_' + pad + '.mp3');
+  currentAudio = audio;
+
+  // Show subtitles
+  const subtitlesEl = document.getElementById('subtitles');
+  subtitlesEl.textContent = narrations[slideIndex] || '';
+  subtitlesEl.classList.add('visible');
+
+  audio.onplay = function() {
+    isSpeaking = true;
+    document.getElementById('audioWave').classList.remove('paused');
+  };
+
+  audio.onended = function() {
+    isSpeaking = false;
+    document.getElementById('audioWave').classList.add('paused');
+    subtitlesEl.classList.remove('visible');
+    currentAudio = null;
+  };
+
+  audio.onerror = function() {
+    isSpeaking = false;
+    document.getElementById('audioWave').classList.add('paused');
+    subtitlesEl.classList.remove('visible');
+    currentAudio = null;
+  };
+
+  setTimeout(function() { audio.play().catch(function() {}); }, 600);
+}
+
+function toggleNarration() {
+  narrationEnabled = !narrationEnabled;
+  document.getElementById('narrationLabel').textContent = narrationEnabled ? 'Audio ON' : 'Audio OFF';
+  if (!narrationEnabled) {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      currentAudio = null;
+    }
+    isSpeaking = false;
+    document.getElementById('audioWave').classList.add('paused');
+    document.getElementById('subtitles').classList.remove('visible');
+  } else {
+    playNarration(current);
+  }
+}
+
+// ==================== AUTOPLAY ====================
+function toggleAutoplay() {
+  var btn = document.getElementById('playBtn');
+  if (autoplayInterval) {
+    clearInterval(autoplayInterval);
+    autoplayInterval = null;
+    btn.innerHTML = '&#9654;';
+    btn.classList.remove('active');
+  } else {
+    btn.innerHTML = '&#9646;&#9646;';
+    btn.classList.add('active');
+    slideShownAt = Date.now();
+    autoplayInterval = setInterval(function() {
+      var elapsed = Date.now() - slideShownAt;
+      if (!isSpeaking && elapsed >= MIN_SLIDE_TIME) {
+        if (current < totalSlides - 1) {
+          slideShownAt = Date.now();
+          nextSlide();
+        } else {
+          clearInterval(autoplayInterval);
+          autoplayInterval = null;
+          btn.innerHTML = '&#9654;';
+          btn.classList.remove('active');
+        }
+      }
+    }, 1000);
+  }
+}
+
+// ==================== START PRESENTATION ====================
+function startPresentation() {
+  document.getElementById('startOverlay').style.display = 'none';
+  if (narrationEnabled) {
+    playNarration(0);
+  }
+  slideShownAt = Date.now();
+  toggleAutoplay();
+}
+
+// ==================== KEYBOARD ====================
+document.addEventListener('keydown', function(e) {
   if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
   if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
   if (e.key === 'Home') { e.preventDefault(); goToSlide(0); }
   if (e.key === 'End') { e.preventDefault(); goToSlide(totalSlides - 1); }
+  if (e.key === 'a' || e.key === 'A') { toggleNarration(); }
+  if (e.key === 'p' || e.key === 'P') { toggleAutoplay(); }
 });
 
-// Touch
-let touchStartX = 0;
-document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
-document.addEventListener('touchend', (e) => {
-  const diff = touchStartX - e.changedTouches[0].clientX;
+// ==================== TOUCH ====================
+var touchStartX = 0;
+document.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', function(e) {
+  var diff = touchStartX - e.changedTouches[0].clientX;
   if (Math.abs(diff) > 50) {
     diff > 0 ? nextSlide() : prevSlide();
   }
 });
 
-// Init
+// ==================== INIT ====================
 initDots();
 updateUI();
 </script>
